@@ -27,6 +27,8 @@ impl FromStr for Method {
     }
 }
 
+
+
 #[derive(Debug)]
 pub enum StatusCode {
     Ok,
@@ -103,13 +105,13 @@ impl FromStr for HttpVersion {
 
 #[derive(Debug)]
 pub struct Request {
-    method: Method,
-    version: HttpVersion,
-    stream: TcpStream,
-    host: String,
-    user_agent: String,
+    pub method: Method,
+    pub version: HttpVersion,
+    pub stream: TcpStream,
+    pub host: String,
+    pub user_agent: String,
     pub path: String,
-    body: String,
+    pub body: String,
 }
 
 impl Request {
@@ -153,6 +155,7 @@ impl Request {
                 .to_string();
             req.method = components[0].parse().unwrap();
             req.path = components[1].to_string();
+            // req.path = format!("{:?}",std::env::current_dir().unwrap());
             req.version = components[2].parse().unwrap();
         }
 

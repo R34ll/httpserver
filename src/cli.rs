@@ -21,22 +21,12 @@ impl Data {
 }
 
 pub fn get_dir_data(c_r_s: String) -> std::io::Result<Vec<Data>> {
-    println!("{:?}",(c_r_s == ".") || (c_r_s == "/"));
+    // print!("Old Path: {:?} - ",c_r_s);
     
-    let c_r: PathBuf = if (c_r_s == ".") || (c_r_s == "/"){
-        println!("ROOT FOLD");
-        std::env::current_dir()?
-    } else {
+    let full_path = std::env::current_dir().expect("Impossible get current dir");
 
-        let c_r = std::env::current_dir()?;
-        let full_path = c_r.to_str().unwrap().to_string() + &c_r_s;
-        let c_r = Path::new(&full_path);
-        std::env::set_current_dir(&c_r)?;
-        PathBuf::from(c_r)
-    };
-
-
-    println!("C_R_S: {:?} - Directory: {:?}",c_r_s,c_r.clone());
+    let c_r = format!("{}/{}",full_path.to_str().unwrap(),c_r_s);
+    println!("New Path: {:?} - Full Path: {:?}", c_r,full_path);
 
     let entries = fs::read_dir(c_r)?;
     let mut vec_data: Vec<Data> = Vec::new();
